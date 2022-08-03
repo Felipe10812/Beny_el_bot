@@ -22,7 +22,7 @@ def timpoCiudades(ciudad):
 
 	return textoFinal
 
-timpo = timpoCiudades('San Nicolas de los garza ')
+timpo = timpoCiudades('San Nicolás de los Garza')
 
 requests.post('https://api.telegram.org/bot5585839781:AAE42khIUAXBDtyMP5E1WGgjGEMCUflQYhc/getMe', 
 	      data = { 'chat_id': '@probandolo', 'text':'timpo' })
