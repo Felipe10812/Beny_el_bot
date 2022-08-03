@@ -14,7 +14,7 @@ def timpoCiudades(ciudad):
 	temperatura = ''
 
 	for ciudadData in ciudad:
-		if ciudadData['nmun'] == ciudad:
+		if ciudadData['name'] == ciudad:
 			estadoCielo = ciudadData['description']
 			temperatura = ciudadData['temp_max']['temp_min']
 	
@@ -24,5 +24,6 @@ def timpoCiudades(ciudad):
 
 timpo = timpoCiudades('San Nicolas de los garza ')
 
-requests.post('', data = { 'chat_id': '@probandolo', 'text':'timpo' })
+requests.post('https://api.telegram.org/bot5585839781:AAE42khIUAXBDtyMP5E1WGgjGEMCUflQYhc/getMe', 
+	      data = { 'chat_id': '@probandolo', 'text':'timpo' })
 
