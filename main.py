@@ -24,6 +24,5 @@ def timpoCiudades(ciudad):
 
 timpo = timpoCiudades('San Nicolas de los garza ')
 
-requests.post('',
-data = { 'chat_id': '@probandolo', 'text':'timpo' })
+requests.post('', data = { 'chat_id': '@probandolo', 'text':'timpo' })
 
