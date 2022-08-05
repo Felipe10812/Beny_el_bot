@@ -1,29 +1,30 @@
-# https://api.telegram.org/
-# https://core.telegram.org/bot/api
-# https://api.openweathermap.org/data/2.5/forecast?lat=25,7272429&lon=-100,311263&appid=e552413b18a80652918bb9f1ddf10010&units=metric&lang=sp&cnt=3
-# Importaciones 
 import requests
 import json
 
-api = requests.get('https://api.openweathermap.org/data/2.5/forecast?lat=25,7272429&lon=-100,311263&appid=e552413b18a80652918bb9f1ddf10010&units=metric&lang=sp&cnt=3')
+api = requests.get('http://api.openweathermap.org/data/2.5/forecast?lat=25,7272429&lon=-100,311263&appid=e552413b18a80652918bb9f1ddf10010&units=metric&lang=sp&cnt=1')
 json_data = json.loads(api.content)
 
-def timpoCiudades(ciudad):
-	ciudad = json_data["city"]
+def tiempoCiudades(ciudad):
+	ciudad = json_data['city']
+	descripcion = json_data['list']
 	estadoCielo = '' 
 	temperatura = ''
-
-	for ciudadData in ciudad:
-		if ciudadData['name'] == ciudad:
-			estadoCielo = ciudadData['description']
-			temperatura = ciudadData['temp_max']['temp_min']
+	city = 'San Nicolás de los Garza'
 	
-	textoFinal = f'Prediccion de hoy en {ciudad} \nCielo {estadoCielo} temperatura {temperatura}'
+	for data in descripcion:
+		nombre = ciudad['name']
+		if nombre == city:
+			estadoCielo = descripcion['weather.description']
+			temperatura = data['temp_max']['temp_min']
 
+
+	text = f'Prediccion de hoy en {ciudad} \nCielo {estadoCielo} temperatura {temperatura}'
+	print(f"Prediccion de hoy en { ciudad['name'] } \n Cielo: {estadoCielo} \n Temperatura: {temperatura}")
 	return textoFinal
 
-timpo = timpoCiudades('San Nicolás de los Garza')
+#tiempo = tiempoCiudades('description')
 
-requests.post('https://api.telegram.org/bot5585839781:AAE42khIUAXBDtyMP5E1WGgjGEMCUflQYhc/getMe', 
-	      data = { 'chat_id': '@probandolo', 'text':'timpo' })
 
+requests.post('https://api.telegram.org/bot5585839781:AAE42khIUAXBDtyMP5E1WGgjGEMCUflQYhc/sendMessage', 
+              data = { 'username': '@Felipe_108', 'text':'tiempo' })
+	
