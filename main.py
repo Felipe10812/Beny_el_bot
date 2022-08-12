@@ -24,7 +24,6 @@ def tiempoCiudades(ciudad):
 
 #tiempo = tiempoCiudades('description')
 
-
+#Version actualizada para enviarse la informacion
 requests.post('https://api.telegram.org/bot5585839781:AAE42khIUAXBDtyMP5E1WGgjGEMCUflQYhc/sendMessage', 
-              data = { 'username': '@Felipe_108', 'text':'tiempo' })
-	
+             data = { 'chat_id' : '-1001677873072', 'text' : tiempo })	
