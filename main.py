@@ -8,6 +8,12 @@ ciudad = json_data['city']['name']
 descripcion = json_data['list']
 
 
+for datamain in descripcion:
+  temp= datamain['main']['temp']
+  tempMax = datamain['main']['temp_max']
+  tempMin = datamain['main']['temp_min']
+  sensacion = datamain['main']['feels_like']
+
 #probabilidad de lluvia
 for data in descripcion:
   propLluvia = data['pop']
@@ -26,7 +32,7 @@ for data in descripcion:    #fecha y hora del pronostico
     
 
 
-texto1 = f'Hoy en {ciudad} \nEl pronostico es el siguiente: {descript} \nTemperatura: °C \n{fechaHora}'
+texto1 = f'Hoy en {ciudad} \nEl pronostico es el siguiente: {descript} \nTemperatura actual: {temp} °C \nTemp. Minima: {tempMin}°C \nTemp. Máx: {tempMax} \n Sensación térmica de: {sensacion}°C \n\n{fechaHora}'
 
 #Version actualizada para enviarse la informacion
 requests.post('https://api.telegram.org/bot5585839781:AAE42khIUAXBDtyMP5E1WGgjGEMCUflQYhc/sendMessage', 
@@ -41,4 +47,3 @@ if propLluvia >= 80:
   texto3= f'Hay una probabilidad de {propLluvia}% que llueva, es muy seguro que llueva, preparese y vaya con precaución'
   requests.post('https://api.telegram.org/bot5585839781:AAE42khIUAXBDtyMP5E1WGgjGEMCUflQYhc/sendMessage', 
              data = { 'chat_id' : '1535633944', 'text' : texto3})
-#\nTemp. Minima: {tempMin}°C \nTemp. Máx: {tempMax}
