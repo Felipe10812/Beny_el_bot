@@ -1,3 +1,5 @@
+# id chat: -1001677873072
+
 import requests
 import json
 
@@ -36,14 +38,17 @@ texto1 = f'Hoy en {ciudad} \nEl pronostico es el siguiente: {descript} \nTempera
 
 #Version actualizada para enviarse la informacion
 requests.post('https://api.telegram.org/bot5585839781:AAE42khIUAXBDtyMP5E1WGgjGEMCUflQYhc/sendMessage', 
-             data = { 'chat_id' : '1535633944', 'text' : texto1})
+             data = { 'chat_id' : '-1001677873072', 'text' : texto1})
 
 
 if propLluvia >= 60 and propLluvia <=80:
   texto2= f'Hay una probabilidad de {propLluvia}% que llueva, vaya preparado'
   requests.post('https://api.telegram.org/bot5585839781:AAE42khIUAXBDtyMP5E1WGgjGEMCUflQYhc/sendMessage', 
-             data = { 'chat_id' : '1535633944', 'text' : texto2})
+             data = { 'chat_id' : '-1001677873072', 'text' : texto2})
 if propLluvia >= 80:
   texto3= f'Hay una probabilidad de {propLluvia}% que llueva, es muy seguro que llueva, preparese y vaya con precaución'
   requests.post('https://api.telegram.org/bot5585839781:AAE42khIUAXBDtyMP5E1WGgjGEMCUflQYhc/sendMessage', 
-             data = { 'chat_id' : '1535633944', 'text' : texto3})
+             data = { 'chat_id' : '-1001677873072', 'text' : texto3})
+
+  
+  
