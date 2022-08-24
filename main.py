@@ -60,7 +60,7 @@ requests.post('https://api.telegram.org/bot5585839781:AAE42khIUAXBDtyMP5E1WGgjGE
 if propLluvia >= 60 and propLluvia <=80:
   texto3= f'Hay una probabilidad de {propLluvia}% que llueva, vaya preparado'
   requests.post('https://api.telegram.org/bot5585839781:AAE42khIUAXBDtyMP5E1WGgjGEMCUflQYhc/sendMessage', 
-             data = { 'chat_id' : '--1001677873072', 'text' : texto3})
+             data = { 'chat_id' : '-1001677873072', 'text' : texto3})
 if propLluvia > 80:
   texto4= f'Hay una probabilidad de {propLluvia}% que llueva, es muy seguro que llueva, preparese y vaya con precaución'
   requests.post('https://api.telegram.org/bot5585839781:AAE42khIUAXBDtyMP5E1WGgjGEMCUflQYhc/sendMessage', 
