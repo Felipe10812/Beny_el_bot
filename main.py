@@ -1,67 +1,50 @@
 # id chat: -1001677873072
 
+# main.py
 import requests
-import json
+from config import WEATHERBIT_URL, TELEGRAM_URL, WEATHERBIT_TOKEN
 
-apiActual = requests.get('https://api.openweathermap.org/data/2.5/weather?lat=25,7263685&lon=-100,3119711&appid=e552413b18a80652918bb9f1ddf10010&units=metric&lang=sp&cnt=2')
-json_actual = json.loads(apiActual.content)
+# Coordenadas (Van a ser variables en el futuro)
+LAT = 25.7263685
+LON = -100.3119711
 
-apiPronostico = requests.get('http://api.openweathermap.org/data/2.5/forecast?lat=25,7272429&lon=-100,311263&appid=e552413b18a80652918bb9f1ddf10010&units=metric&lang=sp&cnt=1')
-json_pron = json.loads(apiPronostico.content)
+# Datos del clima desde Weatherbit
+def obtener_clima_actual(lat, lon):
+    url = f"{WEATHERBIT_URL}lat={lat}&lon={lon}&key={WEATHERBIT_TOKEN}"
+    response = requests.get(url)
+    print(response.json())  # Inspeccionar la respuesta
+    return response.json()
 
+# Envio de mensaje a Telegram
+def enviar_mensaje(chat_id, texto):
+    data = {
+        'chat_id': chat_id,
+        'text': texto
+    }
+    response = requests.post(TELEGRAM_URL, data=data)
+    return response.json()
 
-tempActual = json_actual['main']['temp']
-feel = json_actual['main']['feels_like']
-viento =json_actual['wind']['speed']
-description = json_actual['weather']
+# Lógica principal
+if __name__ == "__main__":
+    chat_id = "-1001677873072"
 
-for item in description:
-  desc = item['description']
-  
+    # Clima actual
+    clima_actual = obtener_clima_actual(LAT, LON)
+    data = clima_actual['data'][0] 
+    ciudad = data['city_name']
+    temp_actual = data['temp']
+    feel = data['app_temp']
+    viento = data['wind_spd']
+    descripcion_actual = data['weather']['description']
 
-ciudad = json_pron['city']['name']
-descripcion = json_pron['list']
+    # Crear texto para Telegram
+    texto = (
+        f"Actualmente en {ciudad}:\n"
+        f"Temperatura actual: {temp_actual} °C\n"
+        f"Esta {descripcion_actual}\n"
+        f"Sensación Térmica: {feel} °C\n"
+        f"Viento: {viento} km/h"
+    )
 
-
-for datamain in descripcion:
-  temp= datamain['main']['temp']
-  tempMax = datamain['main']['temp_max']
-  tempMin = datamain['main']['temp_min']
-  sensacion = datamain['main']['feels_like']
-
-#probabilidad de lluvia
-for data in descripcion:
-  propLluvia = data['pop']
-  propLluvia = propLluvia * 100
-  print(propLluvia)
-
-
-for data in descripcion:    #sacar descripcion del clima
-    print( data['weather'])
-    clima = data['weather']
-    for data2 in clima:
-        descript = data2['description']
-
-for data in descripcion:    #fecha y hora del pronostico
-  fechaHora = data['dt_txt']
-    
-
-texto1 = f'Actualmente en {ciudad}: \nTemp. Actual: {tempActual} °C. \nEsta {desc}\nSensación Térmica de: {feel}°C \nViento: {viento} km/h'
-texto2 = f'Pronostico {fechaHora} en \n{ciudad} \n\nEl pronostico es el siguiente: {descript} \nTemperatura: {temp} °C \nTemp. Minima: {tempMin}°C \nTemp. Máx: {tempMax} \nSensación térmica de: {sensacion}°C '
-
-requests.post('https://api.telegram.org/bot5585839781:AAE42khIUAXBDtyMP5E1WGgjGEMCUflQYhc/sendMessage', 
-             data = { 'chat_id' : '-1001677873072', 'text' : texto1})
-
-#Version actualizada para enviarse la informacion
-requests.post('https://api.telegram.org/bot5585839781:AAE42khIUAXBDtyMP5E1WGgjGEMCUflQYhc/sendMessage', 
-             data = { 'chat_id' : '-1001677873072', 'text' : texto2})
-
-
-if propLluvia >= 60 and propLluvia <=80:
-  texto3= f'Hay una probabilidad de {propLluvia}% que llueva, vaya preparado'
-  requests.post('https://api.telegram.org/bot5585839781:AAE42khIUAXBDtyMP5E1WGgjGEMCUflQYhc/sendMessage', 
-             data = { 'chat_id' : '-1001677873072', 'text' : texto3})
-if propLluvia > 80:
-  texto4= f'Hay una probabilidad de {propLluvia}% que llueva, es muy seguro que llueva, preparese y vaya con precaución'
-  requests.post('https://api.telegram.org/bot5585839781:AAE42khIUAXBDtyMP5E1WGgjGEMCUflQYhc/sendMessage', 
-             data = { 'chat_id' : '-1001677873072', 'text' : texto4})
+    # Enviar mensaje
+    enviar_mensaje(chat_id, texto)
